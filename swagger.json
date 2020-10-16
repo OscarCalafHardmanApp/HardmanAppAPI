@@ -99,7 +99,7 @@
         } ]
       }
     },
-    "/travels/{id}" : {
+    "/travels/id" : {
       "get" : {
         "tags" : [ "routes" ],
         "summary" : "Get the route with a specific id",
