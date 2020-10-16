@@ -156,6 +156,148 @@
           "OAuth2" : [ "write" ]
         } ]
       }
+    },
+    "/phases/routeId" : {
+      "get" : {
+        "tags" : [ "phases" ],
+        "summary" : "Get all the phases for a specific route",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "routeId",
+          "in" : "query",
+          "description" : "The route id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/PhaseSimple"
+              }
+            }
+          },
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      }
+    },
+    "/phases/routeId/phaseId" : {
+      "get" : {
+        "tags" : [ "phases" ],
+        "summary" : "Get the a specific phase for a specific route",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "routeId",
+          "in" : "query",
+          "description" : "The route id",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "phaseId",
+          "in" : "query",
+          "description" : "The phase id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/PhaseSimple"
+            }
+          },
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "routes" ],
+        "summary" : "Create a route",
+        "operationId" : "createRoute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Route object that needs to be added",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Route"
+          }
+        } ],
+        "responses" : {
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "routes" ],
+        "summary" : "Modify a route",
+        "operationId" : "updateRoute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Route object that needs to be updated",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Route"
+          }
+        } ],
+        "responses" : {
+          "402" : {
+            "description" : "Object not found"
+          },
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "routes" ],
+        "summary" : "Delete a route",
+        "operationId" : "deleteRoute",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The route id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "402" : {
+            "description" : "Object not found"
+          },
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      }
     }
   },
   "securityDefinitions" : {
