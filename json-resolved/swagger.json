@@ -1,9 +1,8 @@
 {
-  "swagger" : "2.0",
+  "openapi" : "3.0.0",
   "info" : {
-    "description" : "HardmanApp API\n",
-    "version" : "1.0.0",
     "title" : "HardmanApp API documentation",
+    "description" : "HardmanApp API\n",
     "termsOfService" : "http://hardman.app",
     "contact" : {
       "email" : "help@hardman.app"
@@ -11,10 +10,16 @@
     "license" : {
       "name" : "Apache 2.0",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
-    }
+    },
+    "version" : "1.0.0-oas3"
   },
-  "host" : "my-api.hardman.app",
-  "basePath" : "/v3/api",
+  "externalDocs" : {
+    "description" : "Find out more about Hardman.app",
+    "url" : "http://hardman.app"
+  },
+  "servers" : [ {
+    "url" : "https://my-api.hardman.app/v3/api"
+  } ],
   "tags" : [ {
     "name" : "shipments",
     "description" : "Everything about shipments"
@@ -28,21 +33,22 @@
     "name" : "telemetrics",
     "description" : "Everythin about telemetrics"
   } ],
-  "schemes" : [ "https" ],
   "paths" : {
     "/travels" : {
       "get" : {
         "tags" : [ "routes" ],
         "summary" : "Get all the routes",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/RouteSimple"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/RouteSimple"
+                  }
+                }
               }
             }
           },
@@ -54,22 +60,25 @@
           "ApiKey" : [ ]
         } ]
       },
-      "post" : {
+      "put" : {
         "tags" : [ "routes" ],
-        "summary" : "Create a route",
-        "operationId" : "createRoute",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Route object that needs to be added",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Route"
-          }
-        } ],
+        "summary" : "Modify a route",
+        "operationId" : "updateRoute",
+        "requestBody" : {
+          "description" : "Route object that needs to be updated",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Route"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
+          "402" : {
+            "description" : "Object not found"
+          },
           "405" : {
             "description" : "Validation exception"
           }
@@ -78,25 +87,22 @@
           "ApiKey" : [ ]
         } ]
       },
-      "put" : {
+      "post" : {
         "tags" : [ "routes" ],
-        "summary" : "Modify a route",
-        "operationId" : "updateRoute",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Route object that needs to be updated",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Route"
-          }
-        } ],
-        "responses" : {
-          "402" : {
-            "description" : "Object not found"
+        "summary" : "Create a route",
+        "operationId" : "createRoute",
+        "requestBody" : {
+          "description" : "Route object that needs to be added",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Route"
+              }
+            }
           },
+          "required" : true
+        },
+        "responses" : {
           "405" : {
             "description" : "Validation exception"
           }
@@ -110,19 +116,26 @@
       "get" : {
         "tags" : [ "routes" ],
         "summary" : "Get the route with a specific id",
-        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "id",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/RouteSimple"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RouteSimple"
+                }
+              }
             }
           },
           "405" : {
@@ -142,7 +155,11 @@
           "in" : "query",
           "description" : "The route id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -164,21 +181,28 @@
       "get" : {
         "tags" : [ "phases" ],
         "summary" : "Get all the phases for a specific route",
-        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "routeId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/PhaseSimple"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PhaseSimple"
+                  }
+                }
               }
             }
           },
@@ -195,25 +219,36 @@
       "get" : {
         "tags" : [ "phases" ],
         "summary" : "Get the a specific phase for a specific route",
-        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "routeId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         }, {
           "name" : "phaseId",
           "in" : "query",
           "description" : "The phase id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/PhaseSimple"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PhaseSimple"
+                }
+              }
             }
           },
           "405" : {
@@ -226,27 +261,34 @@
       }
     },
     "/phases" : {
-      "post" : {
+      "put" : {
         "tags" : [ "phases" ],
-        "summary" : "Create a phase",
-        "operationId" : "createPhase",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Phase object that needs to be added",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/PhaseSimple"
-          }
-        } ],
+        "summary" : "Modify a phase",
+        "operationId" : "updatePhase",
+        "requestBody" : {
+          "description" : "Phase object that needs to be updated",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PhaseSimple"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Phase"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Phase"
+                }
+              }
             }
+          },
+          "402" : {
+            "description" : "Object not found"
           },
           "405" : {
             "description" : "Validation exception"
@@ -256,30 +298,31 @@
           "ApiKey" : [ ]
         } ]
       },
-      "put" : {
+      "post" : {
         "tags" : [ "phases" ],
-        "summary" : "Modify a phase",
-        "operationId" : "updatePhase",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Phase object that needs to be updated",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/PhaseSimple"
-          }
-        } ],
+        "summary" : "Create a phase",
+        "operationId" : "createPhase",
+        "requestBody" : {
+          "description" : "Phase object that needs to be added",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PhaseSimple"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Phase"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Phase"
+                }
+              }
             }
-          },
-          "402" : {
-            "description" : "Object not found"
           },
           "405" : {
             "description" : "Validation exception"
@@ -294,19 +337,26 @@
       "get" : {
         "tags" : [ "phases" ],
         "summary" : "Get the a specific phase",
-        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "phaseId",
           "in" : "query",
           "description" : "The phase id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/Phase"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Phase"
+                }
+              }
             }
           },
           "405" : {
@@ -320,13 +370,17 @@
       "delete" : {
         "tags" : [ "phases" ],
         "summary" : "Delete a phase",
-        "operationId" : "deleteRoute",
+        "operationId" : "deletePhase",
         "parameters" : [ {
           "name" : "phaseId",
           "in" : "query",
           "description" : "The phase id",
           "required" : true,
-          "type" : "string"
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -348,15 +402,17 @@
       "get" : {
         "tags" : [ "shipments" ],
         "summary" : "Get all the shipments",
-        "produces" : [ "application/json" ],
-        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Shipment"
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Shipment"
+                  }
+                }
               }
             }
           },
@@ -370,362 +426,363 @@
       }
     }
   },
-  "securityDefinitions" : {
-    "ApiKey" : {
-      "type" : "apiKey",
-      "name" : "api_key",
-      "in" : "header"
-    }
-  },
-  "definitions" : {
-    "Route" : {
-      "properties" : {
-        "phases" : {
-          "type" : "array",
-          "xml" : {
-            "name" : "tag",
-            "wrapped" : true
-          },
-          "items" : {
-            "$ref" : "#/definitions/Phase"
+  "components" : {
+    "schemas" : {
+      "Route" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "phases" : {
+            "type" : "array",
+            "xml" : {
+              "name" : "tag",
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/Phase"
+            }
           }
+        },
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/RouteSimple"
+        } ]
+      },
+      "RouteSimple" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "write_uuid" : {
+            "type" : "string",
+            "description" : "uuid to access as Write"
+          },
+          "read_uuid" : {
+            "type" : "string",
+            "description" : "uuid to access as readOnly"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "title of short description of the route"
+          },
+          "date_start" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "date_end" : {
+            "type" : "string",
+            "format" : "date"
+          },
+          "driver" : {
+            "type" : "integer",
+            "description" : "driver id",
+            "format" : "int64"
+          },
+          "customer" : {
+            "type" : "integer",
+            "description" : "customer id",
+            "format" : "int64"
+          },
+          "price_client" : {
+            "type" : "number",
+            "description" : "the price for the client"
+          },
+          "price_driver" : {
+            "type" : "number",
+            "description" : "the price for the driver"
+          },
+          "reference" : {
+            "type" : "string",
+            "description" : "internal reference number in your systems"
+          },
+          "accepted" : {
+            "type" : "boolean",
+            "description" : "Indicate if the route has been accepted by the driver"
+          },
+          "status" : {
+            "type" : "string",
+            "description" : "the status of the route",
+            "enum" : [ "Draft", "Ready", "Running", "Finished" ]
+          },
+          "assigned_manager" : {
+            "type" : "integer",
+            "description" : "user id that acts as manager",
+            "format" : "int64"
+          },
+          "previous_status" : {
+            "type" : "string",
+            "description" : "previous state of the route",
+            "enum" : [ "Draft", "Ready", "Running", "Finished" ]
+          },
+          "custom_inputs" : {
+            "type" : "object"
+          },
+          "banner_text" : {
+            "type" : "string",
+            "description" : "Alternative to banner_html where it's not possible to show html code"
+          },
+          "banner_html" : {
+            "type" : "string",
+            "description" : "A HTML code that will be shown with the route"
+          },
+          "comments" : {
+            "type" : "string",
+            "description" : "A description fro the route"
+          }
+        },
+        "xml" : {
+          "name" : "Route"
         }
       },
-      "allOf" : [ {
-        "$ref" : "#/definitions/RouteSimple"
-      }, { } ]
-    },
-    "RouteSimple" : {
-      "type" : "object",
-      "required" : [ "id" ],
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
+      "Phase" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "created_at" : {
+            "type" : "string",
+            "format" : "date_time"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "intermodal" : {
+            "type" : "string"
+          }
         },
-        "write_uuid" : {
-          "type" : "string",
-          "description" : "uuid to access as Write"
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/PhaseSimple"
+        } ]
+      },
+      "PhaseSimple" : {
+        "required" : [ "id", "order" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "travel_id" : {
+            "type" : "integer",
+            "description" : "Route Id",
+            "format" : "int64"
+          },
+          "order" : {
+            "type" : "integer",
+            "description" : "Order. The phases can be re ordered using this attribute",
+            "format" : "int64"
+          },
+          "ambit" : {
+            "type" : "integer",
+            "description" : "Ambit. Security term",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string",
+            "example" : "doggie"
+          },
+          "phasename" : {
+            "type" : "string",
+            "description" : "The name of the phase. If null or blank we will use the directionl."
+          },
+          "arrived" : {
+            "type" : "object"
+          },
+          "done" : {
+            "type" : "object"
+          }
         },
-        "read_uuid" : {
-          "type" : "string",
-          "description" : "uuid to access as readOnly"
-        },
-        "name" : {
-          "type" : "string",
-          "description" : "title of short description of the route"
-        },
-        "date_start" : {
-          "type" : "string",
-          "format" : "date"
-        },
-        "date_end" : {
-          "type" : "string",
-          "format" : "date"
-        },
-        "driver" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "driver id"
-        },
-        "customer" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "customer id"
-        },
-        "price_client" : {
-          "type" : "number",
-          "description" : "the price for the client"
-        },
-        "price_driver" : {
-          "type" : "number",
-          "description" : "the price for the driver"
-        },
-        "reference" : {
-          "type" : "string",
-          "description" : "internal reference number in your systems"
-        },
-        "accepted" : {
-          "type" : "boolean",
-          "description" : "Indicate if the route has been accepted by the driver"
-        },
-        "status" : {
-          "type" : "string",
-          "description" : "the status of the route",
-          "enum" : [ "Draft", "Ready", "Running", "Finished" ]
-        },
-        "assigned_manager" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "user id that acts as manager"
-        },
-        "previous_status" : {
-          "type" : "string",
-          "description" : "previous state of the route",
-          "enum" : [ "Draft", "Ready", "Running", "Finished" ]
-        },
-        "custom_inputs" : {
-          "type" : "object",
-          "properties" : { }
-        },
-        "banner_text" : {
-          "type" : "string",
-          "description" : "Alternative to banner_html where it's not possible to show html code"
-        },
-        "banner_html" : {
-          "type" : "string",
-          "description" : "A HTML code that will be shown with the route"
-        },
-        "comments" : {
-          "type" : "string",
-          "description" : "A description fro the route"
+        "xml" : {
+          "name" : "Phase"
         }
       },
-      "xml" : {
-        "name" : "Route"
+      "Shipment" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "origin" : {
+            "$ref" : "#/components/schemas/Address"
+          },
+          "destination" : {
+            "$ref" : "#/components/schemas/Address"
+          }
+        },
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/ShipmentSimple"
+        } ]
+      },
+      "ShipmentSimple" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "write_uuid" : {
+            "type" : "string",
+            "description" : "uuid to access as Write"
+          },
+          "read_uuid" : {
+            "type" : "string",
+            "description" : "uuid to access as readOnly"
+          },
+          "travel_id" : {
+            "type" : "integer",
+            "description" : "Route Id",
+            "format" : "int64"
+          },
+          "origin_id" : {
+            "type" : "integer",
+            "description" : "Origin Address Id",
+            "format" : "int64"
+          },
+          "destination_id" : {
+            "type" : "integer",
+            "description" : "Destination Address Id",
+            "format" : "int64"
+          },
+          "comments" : {
+            "type" : "string"
+          },
+          "notes_text" : {
+            "type" : "string",
+            "description" : "Alternative to html where it's not possible to show html code"
+          },
+          "notes_html" : {
+            "type" : "string",
+            "description" : "A HTML code that will be shown with the object"
+          },
+          "internal_id" : {
+            "type" : "string",
+            "description" : "internal reference number in your systems"
+          },
+          "goods" : {
+            "type" : "string",
+            "description" : "A description of the goods"
+          },
+          "origin_eda" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "origin_eta" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "destination_eda" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "destination_eta" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "origin_arrived" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "origin_done" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "destination_arrived" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "destination_done" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "created_at" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "datetime"
+          },
+          "details" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "ShipmenSimple"
+        }
+      },
+      "Address" : {
+        "required" : [ "id" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string",
+            "description" : "Full address"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "country_id" : {
+            "type" : "integer"
+          },
+          "postal_code" : {
+            "type" : "string"
+          },
+          "coordinates" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "contact_name" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "scheduled_time" : {
+            "type" : "string"
+          },
+          "ambit_id" : {
+            "type" : "integer",
+            "description" : "Ambit Id",
+            "format" : "int64"
+          },
+          "enabled_slots" : {
+            "type" : "boolean"
+          },
+          "timetable_start_time" : {
+            "type" : "string",
+            "format" : "time"
+          },
+          "interval" : {
+            "type" : "string",
+            "format" : "time"
+          },
+          "is_active" : {
+            "type" : "boolean"
+          }
+        },
+        "xml" : {
+          "name" : "Address"
+        }
       }
     },
-    "Phase" : {
-      "properties" : {
-        "created_at" : {
-          "type" : "string",
-          "format" : "date_time"
-        },
-        "address" : {
-          "type" : "string"
-        },
-        "intermodal" : {
-          "type" : "string"
-        }
-      },
-      "allOf" : [ {
-        "$ref" : "#/definitions/PhaseSimple"
-      }, { } ]
-    },
-    "PhaseSimple" : {
-      "type" : "object",
-      "required" : [ "id", "order" ],
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "travel_id" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Route Id"
-        },
-        "order" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Order. The phases can be re ordered using this attribute"
-        },
-        "ambit" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Ambit. Security term"
-        },
-        "name" : {
-          "type" : "string",
-          "example" : "doggie"
-        },
-        "phasename" : {
-          "type" : "string",
-          "description" : "The name of the phase. If null or blank we will use the directionl."
-        },
-        "arrived" : {
-          "type" : "object",
-          "properties" : { }
-        },
-        "done" : {
-          "type" : "object",
-          "properties" : { }
-        }
-      },
-      "xml" : {
-        "name" : "Phase"
-      }
-    },
-    "Shipment" : {
-      "properties" : {
-        "origin" : {
-          "$ref" : "#/definitions/Address"
-        },
-        "destination" : {
-          "$ref" : "#/definitions/Address"
-        }
-      },
-      "allOf" : [ {
-        "$ref" : "#/definitions/ShipmentSimple"
-      }, { } ]
-    },
-    "ShipmentSimple" : {
-      "type" : "object",
-      "required" : [ "id" ],
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "write_uuid" : {
-          "type" : "string",
-          "description" : "uuid to access as Write"
-        },
-        "read_uuid" : {
-          "type" : "string",
-          "description" : "uuid to access as readOnly"
-        },
-        "travel_id" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Route Id"
-        },
-        "origin_id" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Origin Address Id"
-        },
-        "destination_id" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Destination Address Id"
-        },
-        "comments" : {
-          "type" : "string"
-        },
-        "notes_text" : {
-          "type" : "string",
-          "description" : "Alternative to html where it's not possible to show html code"
-        },
-        "notes_html" : {
-          "type" : "string",
-          "description" : "A HTML code that will be shown with the object"
-        },
-        "internal_id" : {
-          "type" : "string",
-          "description" : "internal reference number in your systems"
-        },
-        "goods" : {
-          "type" : "string",
-          "description" : "A description of the goods"
-        },
-        "origin_eda" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "origin_eta" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "destination_eda" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "destination_eta" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "origin_arrived" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "origin_done" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "destination_arrived" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "destination_done" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "created_at" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "updated_at" : {
-          "type" : "string",
-          "format" : "datetime"
-        },
-        "details" : {
-          "type" : "string"
-        }
-      },
-      "xml" : {
-        "name" : "ShipmenSimple"
-      }
-    },
-    "Address" : {
-      "type" : "object",
-      "required" : [ "id" ],
-      "properties" : {
-        "id" : {
-          "type" : "integer",
-          "format" : "int64"
-        },
-        "name" : {
-          "type" : "string"
-        },
-        "address" : {
-          "type" : "string",
-          "description" : "Full address"
-        },
-        "city" : {
-          "type" : "string"
-        },
-        "country_id" : {
-          "type" : "integer"
-        },
-        "postal_code" : {
-          "type" : "string"
-        },
-        "coordinates" : {
-          "type" : "string"
-        },
-        "phone" : {
-          "type" : "string"
-        },
-        "email" : {
-          "type" : "string"
-        },
-        "contact_name" : {
-          "type" : "string"
-        },
-        "language" : {
-          "type" : "string"
-        },
-        "scheduled_time" : {
-          "type" : "string"
-        },
-        "ambit_id" : {
-          "type" : "integer",
-          "format" : "int64",
-          "description" : "Ambit Id"
-        },
-        "enabled_slots" : {
-          "type" : "boolean"
-        },
-        "timetable_start_time" : {
-          "type" : "string",
-          "format" : "time"
-        },
-        "interval" : {
-          "type" : "string",
-          "format" : "time"
-        },
-        "is_active" : {
-          "type" : "boolean"
-        }
-      },
-      "xml" : {
-        "name" : "Address"
+    "securitySchemes" : {
+      "ApiKey" : {
+        "type" : "apiKey",
+        "name" : "api_key",
+        "in" : "header"
       }
     }
-  },
-  "externalDocs" : {
-    "description" : "Find out more about Hardman.app",
-    "url" : "http://hardman.app"
   }
 }
