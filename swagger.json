@@ -13,8 +13,6 @@
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "host" : "virtserver.swaggerhub.com",
-  "basePath" : "/hardmanapp/General/1.0.0",
   "tags" : [ {
     "name" : "routes",
     "description" : "Everything about routes"
@@ -28,7 +26,7 @@
   "paths" : {
     "/travels" : {
       "get" : {
-        "tags" : "-routes",
+        "tags" : [ "routes" ],
         "summary" : "Get all the routes",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -50,7 +48,7 @@
         } ]
       },
       "post" : {
-        "tags" : "-routes",
+        "tags" : [ "routes" ],
         "summary" : "Create a route",
         "operationId" : "createRoute",
         "consumes" : [ "application/json" ],
@@ -74,7 +72,7 @@
         } ]
       },
       "put" : {
-        "tags" : "-routes",
+        "tags" : [ "routes" ],
         "summary" : "Modify a route",
         "operationId" : "updateRoute",
         "consumes" : [ "application/json" ],
@@ -103,7 +101,7 @@
     },
     "/travels/{id}" : {
       "get" : {
-        "tags" : "-routes",
+        "tags" : [ "routes" ],
         "summary" : "Get the route with a specific id",
         "produces" : [ "application/json" ],
         "parameters" : [ {
@@ -129,7 +127,7 @@
         } ]
       },
       "delete" : {
-        "tags" : "-routes",
+        "tags" : [ "routes" ],
         "summary" : "Delete a route",
         "operationId" : "deleteRoute",
         "parameters" : [ {
@@ -342,5 +340,7 @@
     "description" : "Find out more about Hardman.app",
     "url" : "http://hardman.app"
   },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/hardmanapp/General/1.0.0",
   "schemes" : [ "https" ]
 }
