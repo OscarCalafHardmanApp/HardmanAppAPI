@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "HardmanApp API documentation",
-    "description" : "HardmanApp API Això és una prova a veure que tal <b>SErà negreta?</b>",
+    "description" : "Basic concepts -> https://hardman-app.atlassian.net/wiki/spaces/API/pages/172032001/Shipments Security concepts ->",
     "termsOfService" : "http://hardman.app",
     "contact" : {
       "email" : "help@hardman.app"
@@ -112,12 +112,12 @@
         } ]
       }
     },
-    "/travels/id" : {
+    "/travels/travelId" : {
       "get" : {
         "tags" : [ "routes" ],
         "summary" : "Get the route with a specific id",
         "parameters" : [ {
-          "name" : "id",
+          "name" : "travelId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
@@ -151,7 +151,7 @@
         "summary" : "Delete a route",
         "operationId" : "deleteRoute",
         "parameters" : [ {
-          "name" : "id",
+          "name" : "travelId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
