@@ -1,0 +1,346 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "HardmanApp API\n",
+    "version" : "1.0.0",
+    "title" : "HardmanApp API documentation",
+    "termsOfService" : "http://hardman.app",
+    "contact" : {
+      "email" : "help@hardman.app"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/hardmanapp/General/1.0.0",
+  "tags" : [ {
+    "name" : "routes",
+    "description" : "Everything about routes"
+  }, {
+    "name" : "phases",
+    "description" : "Everything about phases"
+  }, {
+    "name" : "telemetrics",
+    "description" : "Everythin about telemetrics"
+  } ],
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/travels" : {
+      "get" : {
+        "tags" : [ "routes" ],
+        "summary" : "Get all the routes",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/RouteSimple"
+              }
+            }
+          },
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "routes" ],
+        "summary" : "Create a route",
+        "operationId" : "createRoute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Route object that needs to be added",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Route"
+          }
+        } ],
+        "responses" : {
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "put" : {
+        "tags" : [ "routes" ],
+        "summary" : "Modify a route",
+        "operationId" : "updateRoute",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Route object that needs to be updated",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Route"
+          }
+        } ],
+        "responses" : {
+          "402" : {
+            "description" : "Object not found"
+          },
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      }
+    },
+    "/travels/id" : {
+      "get" : {
+        "tags" : [ "routes" ],
+        "summary" : "Get the route with a specific id",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The route id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/RouteSimple"
+            }
+          },
+          "405" : {
+            "description" : "Invalid input"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "routes" ],
+        "summary" : "Delete a route",
+        "operationId" : "deleteRoute",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "query",
+          "description" : "The route id",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "402" : {
+            "description" : "Object not found"
+          },
+          "405" : {
+            "description" : "Validation exception"
+          }
+        },
+        "security" : [ {
+          "OAuth2" : [ "write" ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "OAuth2" : {
+      "type" : "oauth2",
+      "authorizationUrl" : "https://example.com/oauth/authorize",
+      "tokenUrl" : "https://example.com/oauth/token",
+      "flow" : "accessCode",
+      "scopes" : {
+        "write" : "Grants write access"
+      }
+    }
+  },
+  "definitions" : {
+    "Route" : {
+      "properties" : {
+        "phases" : {
+          "type" : "array",
+          "xml" : {
+            "name" : "tag",
+            "wrapped" : true
+          },
+          "items" : {
+            "$ref" : "#/definitions/Phase"
+          }
+        }
+      },
+      "allOf" : [ {
+        "$ref" : "#/definitions/RouteSimple"
+      }, { } ]
+    },
+    "RouteSimple" : {
+      "type" : "object",
+      "required" : [ "id" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "write_uuid" : {
+          "type" : "string",
+          "description" : "uuid to access as Write"
+        },
+        "read_uuid" : {
+          "type" : "string",
+          "description" : "uuid to access as readOnly"
+        },
+        "name" : {
+          "type" : "string",
+          "description" : "title of short description of the route"
+        },
+        "date_start" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "date_end" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "driver" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "driver id"
+        },
+        "customer" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "customer id"
+        },
+        "price_client" : {
+          "type" : "number",
+          "description" : "the price for the client"
+        },
+        "price_driver" : {
+          "type" : "number",
+          "description" : "the price for the driver"
+        },
+        "reference" : {
+          "type" : "string",
+          "description" : "internal reference number in your systems"
+        },
+        "accepted" : {
+          "type" : "boolean",
+          "description" : "Indicate if the route has been accepted by the driver"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "the status of the route",
+          "enum" : [ "Draft", "Ready", "Running", "Finished" ]
+        },
+        "assigned_manager" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "user id that acts as manager"
+        },
+        "previous_status" : {
+          "type" : "string",
+          "description" : "previous state of the route",
+          "enum" : [ "Draft", "Ready", "Running", "Finished" ]
+        },
+        "custom_inputs" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "banner_text" : {
+          "type" : "string",
+          "description" : "Alternative to banner_html where it's not possible to show html code"
+        },
+        "banner_html" : {
+          "type" : "string",
+          "description" : "A HTML code that will be shown with the route"
+        },
+        "comments" : {
+          "type" : "string",
+          "description" : "A description fro the route"
+        }
+      },
+      "xml" : {
+        "name" : "Route"
+      }
+    },
+    "Phase" : {
+      "properties" : {
+        "created_at" : {
+          "type" : "string",
+          "format" : "date_time"
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "intermodal" : {
+          "type" : "string"
+        }
+      },
+      "allOf" : [ {
+        "$ref" : "#/definitions/PhaseSimple"
+      }, { } ]
+    },
+    "PhaseSimple" : {
+      "type" : "object",
+      "required" : [ "id", "order" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "travel_id" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Route Id"
+        },
+        "order" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Order. The phases can be re ordered using this attribute"
+        },
+        "ambit" : {
+          "type" : "integer",
+          "format" : "int64",
+          "description" : "Ambit. Security term"
+        },
+        "name" : {
+          "type" : "string",
+          "example" : "doggie"
+        },
+        "phasename" : {
+          "type" : "string",
+          "description" : "The name of the phase. If null or blank we will use the directionl."
+        },
+        "arrived" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "done" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      },
+      "xml" : {
+        "name" : "Phase"
+      }
+    }
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Hardman.app",
+    "url" : "http://hardman.app"
+  }
+}
