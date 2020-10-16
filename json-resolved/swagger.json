@@ -220,49 +220,30 @@
         "security" : [ {
           "OAuth2" : [ "write" ]
         } ]
-      },
+      }
+    },
+    "/phases" : {
       "post" : {
-        "tags" : [ "routes" ],
-        "summary" : "Create a route",
-        "operationId" : "createRoute",
+        "tags" : [ "phases" ],
+        "summary" : "Create a phase",
+        "operationId" : "createPhase",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "Route object that needs to be added",
+          "description" : "Phase object that needs to be added",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Route"
+            "$ref" : "#/definitions/PhaseSimple"
           }
         } ],
         "responses" : {
-          "405" : {
-            "description" : "Validation exception"
-          }
-        },
-        "security" : [ {
-          "OAuth2" : [ "write" ]
-        } ]
-      },
-      "put" : {
-        "tags" : [ "routes" ],
-        "summary" : "Modify a route",
-        "operationId" : "updateRoute",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "description" : "Route object that needs to be updated",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Route"
-          }
-        } ],
-        "responses" : {
-          "402" : {
-            "description" : "Object not found"
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Phase"
+            }
           },
           "405" : {
             "description" : "Validation exception"
@@ -272,20 +253,27 @@
           "OAuth2" : [ "write" ]
         } ]
       },
-      "delete" : {
-        "tags" : [ "routes" ],
-        "summary" : "Delete a route",
-        "operationId" : "deleteRoute",
+      "put" : {
+        "tags" : [ "phases" ],
+        "summary" : "Modify a phase",
+        "operationId" : "updatePhase",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
         "parameters" : [ {
-          "name" : "id",
-          "in" : "query",
-          "description" : "The route id",
+          "in" : "body",
+          "name" : "body",
+          "description" : "Phase object that needs to be updated",
           "required" : true,
-          "type" : "string"
+          "schema" : {
+            "$ref" : "#/definitions/PhaseSimple"
+          }
         } ],
         "responses" : {
           "200" : {
-            "description" : "successful operation"
+            "description" : "successful operation",
+            "schema" : {
+              "$ref" : "#/definitions/Phase"
+            }
           },
           "402" : {
             "description" : "Object not found"
