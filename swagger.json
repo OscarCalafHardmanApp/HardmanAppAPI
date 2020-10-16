@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "description" : "Main concepts: The shipment it's the basic element of control Shipment is a unique entity that identifies the act to carry goods from point a to b. Usually we don't do a unique shipment, we grup them into a route. A route it's a entity that identifies the act to distribute some shipments allong work day.",
+    "description" : "Basic concepts -> https://hardman-app.atlassian.net/wiki/spaces/API/pages/172032001/Shipments Security concepts ->",
     "version" : "1.0.0-oas3",
     "title" : "HardmanApp API documentation",
     "termsOfService" : "http://hardman.app",
