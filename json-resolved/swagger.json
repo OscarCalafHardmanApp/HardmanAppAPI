@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "HardmanApp API documentation",
-    "description" : "HardmanApp API\n",
+    "description" : "HardmanApp API Això és una prova a veure que tal <b>SErà negreta?</b>",
     "termsOfService" : "http://hardman.app",
     "contact" : {
       "email" : "help@hardman.app"
