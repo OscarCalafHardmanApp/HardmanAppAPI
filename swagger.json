@@ -105,12 +105,12 @@
         }
       }
     },
-    "/travels/id" : {
+    "/travels/travelId" : {
       "get" : {
         "tags" : [ "routes" ],
         "summary" : "Get the route with a specific id",
         "parameters" : [ {
-          "name" : "id",
+          "name" : "travelId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
@@ -142,7 +142,7 @@
         "summary" : "Delete a route",
         "operationId" : "deleteRoute",
         "parameters" : [ {
-          "name" : "id",
+          "name" : "travelId",
           "in" : "query",
           "description" : "The route id",
           "required" : true,
